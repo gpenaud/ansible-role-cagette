@@ -1,2 +1,7 @@
 ---
-# handlers file for cagette
+- name: start cron
+  become: yes
+  service:
+    name: cron
+    state: started
+    enabled: yes

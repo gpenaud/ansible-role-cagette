@@ -53,3 +53,15 @@ classnames  history	   hxevents	 material-ui	       react-router-4	       redux-
 css-types   hscript	   hxleaflet	 mime		       react-transition-group  smtpmailer     thx.semver  tink_http   tink_multipart  tink_stringly
 datetime    html-entities  jQueryExtern  modular	       react-types	       sugoi	      tink_anon   tink_hxx    tink_parse      tink_syntaxhub
 dbadmin     http-status    js-object	 react-event-listener  redux		       templo	      tink_await  tink_io     tink_priority   tink_typecrawler
+
+# podman instalaltion
+
+python3 -m pip install --user "molecule[podman]"
+16080  2022-05-05 14:06:38 python3 -m pip uninstall --user "molecule[podman]"
+16087  2022-05-05 14:12:09 python3 -m pip uninstall "molecule[podman]"
+16093  2022-05-05 14:47:11 molecule converge --driver-name podman
+16094  2022-05-05 14:47:51 python3 -m pip install "molecule[podman]"
+16095  2022-05-05 14:48:11 pip install podman
+16096  2022-05-05 14:48:44 pip install molecule-podman
+16097  2022-05-05 14:48:48 molecule test --driver-name podman
+16098  2022-05-05 14:50:44 ansible-galaxy collection install containers.podman

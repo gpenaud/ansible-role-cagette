@@ -1,8 +1,11 @@
 galaxy_info:
-  author: your name
+  author: Guillaume Penaud
+
+  role_name: cagette
   namespace: gpenaud
-  description: your role description
-  company: your company (optional)
+
+  description: an ansible role for cagette webapp
+  company: la joyeuse cacahuète
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value

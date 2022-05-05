@@ -1,11 +1,11 @@
 
 # - name: preflight checks
 #   include: preflight.yml
-
+#
 # - name: prepare host (install required tools)
 #   include: prepare.yml
 #   tags: prepare
-
+#
 # - name: install cagette
 #   include: install.yml
 #   tags: install
@@ -21,6 +21,12 @@
 #
 # - name: compile frontend
 #   include: install/compile/frontend.yml
+#
+# - name: install templo
+#   include: install/templo.yml
 
-- name: install templo
-  include: install/templo.yml
+- name: install cron
+  include: install/cron.yml
+
+- name: configure cagette and apache2 webserver
+  include: configure.yml

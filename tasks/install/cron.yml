@@ -1,0 +1,30 @@
+
+- name: "[install] - install cron service"
+  become: yes
+  apt:
+    state: present
+    name: cron
+    update_cache: yes
+
+- name: "[install] - populate crontab"
+  become: yes
+  template:
+    src: templates/crontab.j2
+    dest: /etc/crontab
+    owner: root
+    group: root
+    mode: 0755
+  register: cron_template
+  notify:
+    - start cron
+
+- name: "[install] - execute crontab"
+  become: yes
+  shell: crontab /etc/crontab
+  args:
+    executable: /bin/bash
+  when: cron_template.changed
+  notify:
+    - start cron
+
+- meta: flush_handlers
