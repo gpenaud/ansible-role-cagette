@@ -11,7 +11,7 @@
   become: yes
   shell: lix download
   args:
-    chdir: /var/www/cagette/frontend
+    chdir: "{{ install_directory }}/frontend"
     executable: /bin/bash
   when: not haxe_frontend_libraries.stat.exists or (force_haxe_frontend_libraries is defined and force_haxe_frontend_libraries == "yes")
 
@@ -19,5 +19,5 @@
   become: yes
   file:
     state: directory
-    path: /var/www/cagette/lang/master/tmp
+    path: "{{ install_directory }}/lang/master/tmp"
     mode: 0777

@@ -1,2 +1,8 @@
 ---
-# defaults file for cagette
+install_directory: /var/www/cagette
+
+source_repository: https://github.com/gpenaud/cagette.git
+nodejs_apt_repository_script_url: https://deb.nodesource.com/setup_17.x
+
+user: cagette
+group: cagette

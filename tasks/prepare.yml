@@ -22,25 +22,25 @@
 
 - name: "[prepare] - get nodejs apt repository script"
   get_url:
-    url: https://deb.nodesource.com/setup_17.x
-    dest: /tmp/nodejs_17.sh
+    url: "{{ nodejs_apt_repository_script_url }}"
+    dest: /tmp/nodejs_add_repository.sh
     mode: 'u+rwx'
   when: installed.rc != 0
   register: download
 
 - name: "[prepare] - add nodejs apt repository"
   become: yes
-  shell: /tmp/nodejs_17.sh
+  shell: /tmp/nodejs_add_repository.sh
   when: download.changed
 
 - name: "[prepare] - install npm package"
   become: yes
   apt:
     name: nodejs
-    # update_cache: yes
+    update_cache: yes
   when: download.changed
 
-- name: "[prepare] - remove nodejs installer script"
+- name: "[prepare] - remove nodejs repository installer script"
   file:
-    path: /tmp/nodejs_17.sh
+    path: /tmp/nodejs_add_repository.sh
     state: absent
