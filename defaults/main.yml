@@ -6,3 +6,11 @@ nodejs_apt_repository_script_url: https://deb.nodesource.com/setup_17.x
 
 user: cagette
 group: cagette
+
+webserver_vhost_servername: cagette.localhost
+webserver_vhost_server_admin: guillaume.penaud@gmail.com
+webserver_tls_enabled: no
+webserver_tls_certificate_path: /etc/apache2/certificates/cert.pem
+webserver_tls_key_path: /etc/apache2/certificates/key.pem
+webserver_error_log_path: /var/log/apache2/cagette-error.log
+webserver_custom_log_path: /var/log/apache2/cagette-custom.log

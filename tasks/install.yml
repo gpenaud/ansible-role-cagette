@@ -1,19 +1,5 @@
 
 # ------------------------------------------------------------------------------
-# apache installation
-
-- name: "[install] - add apache2 packages"
-  become: yes
-  apt:
-    name: "{{ package }}"
-    update_cache: yes
-  loop:
-    - apache2
-    - libapache2-mod-neko
-  loop_control:
-    loop_var: package
-#
-# ------------------------------------------------------------------------------
 # cagette installation
 
 - name: "[install] - add haxe packages required"
@@ -40,6 +26,7 @@
     group: "{{ group }}"
 
 - name: "[install] - create cagette webapp directory"
+  become: yes
   file:
     path: /var/www
     state: directory
@@ -47,7 +34,7 @@
 
 - name: "[install] - check for cagette source code presence"
   stat:
-    path: {{ install_directory }}
+    path: "{{ install_directory }}"
   register: cagette_source
   failed_when: no
   changed_when: no
@@ -63,7 +50,7 @@
     become: yes
     copy:
       src: /tmp/cagette/docker/app/
-      dest: {{ install_directory }}
+      dest: "{{ install_directory }}"
       owner: "{{ user }}"
       group: "{{ group }}"
       remote_src: yes

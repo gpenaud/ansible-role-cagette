@@ -1,0 +1,52 @@
+
+- name: "[install] - add apache2 packages"
+  become: yes
+  apt:
+    name: "{{ package }}"
+    update_cache: yes
+  loop:
+    - apache2
+    - libapache2-mod-neko
+  loop_control:
+    loop_var: package
+  register: webserver_install
+
+- name: "[install] - enables webserver modules"
+  become: yes
+  apache2_module:
+    state: present
+    name: "{{ module }}"
+    ignore_configcheck: yes
+    force: yes
+  loop:
+    - ssl
+    - rewrite
+    - neko
+  loop_control:
+    loop_var: module
+  when: webserver_install.changed
+  notify:
+    - restart webserver
+
+- name: "[install] - add webserver vhost file"
+  become: yes
+  template:
+    src: templates/vhost.j2
+    dest: /etc/apache2/sites-available/cagette.conf
+    owner: www-data
+    group: www-data
+  notify:
+    - restart webserver
+
+- name: "[install] - link vhost file from sites-available to sites-enabled"
+  become: yes
+  file:
+    state: link
+    src: /etc/apache2/sites-available/cagette.conf
+    dest: /etc/apache2/sites-enabled/cagette.conf
+    owner: www-data
+    group: www-data
+  notify:
+    - restart webserver
+
+- meta: flush_handlers

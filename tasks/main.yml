@@ -21,12 +21,12 @@
 #
 # - name: compile frontend
 #   include: install/compile/frontend.yml
-#
+
+- name: install webserver
+  include: install/webserver.yml
+
 # - name: install templo
 #   include: install/templo.yml
-
-- name: install cron
-  include: install/cron.yml
-
-- name: configure cagette and apache2 webserver
-  include: configure.yml
+#
+# - name: install cron
+#   include: install/cron.yml

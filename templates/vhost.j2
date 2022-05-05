@@ -1,25 +1,27 @@
 <VirtualHost *:80>
-  ServerName  cagette.localhost
-  Redirect permanent / https://cagette.localhost/
+  ServerName {{ webserver_vhost_servername }}
+  Redirect permanent / https://{{ webserver_vhost_servername }}/
 
   LogLevel  warn
-  ErrorLog  /dev/stderr
-  CustomLog /dev/stdout combined
+  ErrorLog  {{ webserver_error_log_path }}
+  CustomLog {{ webserver_custom_log_path }} combined
 </VirtualHost>
 
 <VirtualHost *:443>
-  ServerName  cagette.localhost
-  ServerAdmin  guillaume.penaud@gmail.com
+  ServerName {{ webserver_vhost_servername }}
+  ServerAdmin {{ webserver_vhost_server_admin }}
 
   DocumentRoot {{ install_directory }}/www
 
+  {% if webserver_tls_enabled -%}
   SSLEngine             On
-  SSLCertificateFile    /etc/apache2/certificates/cert.pem
-  SSLCertificateKeyFile /etc/apache2/certificates/key.pem
+  SSLCertificateFile    {{ webserver_tls_certificate_path }}
+  SSLCertificateKeyFile {{ webserver_tls_key_path }}
+  {% endif %}
 
   LogLevel  warn
-  ErrorLog  /dev/stderr
-  CustomLog /dev/stdout combined
+  ErrorLog  {{ webserver_error_log_path }}
+  CustomLog {{ webserver_custom_log_path }} combined
 
   <Directory {{ install_directory }}/www>
     Options Indexes FollowSymLinks
