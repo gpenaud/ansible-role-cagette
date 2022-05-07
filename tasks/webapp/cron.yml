@@ -1,12 +1,12 @@
 
-- name: "[cagette-cron] - install cron service"
+- name: "[cagette-webapp-cron] - install cron service"
   become: yes
   apt:
     state: present
     name: cron
     update_cache: yes
 
-- name: "[cagette-cron] - populate crontab"
+- name: "[cagette-webapp-cron] - populate crontab"
   become: yes
   template:
     src: templates/crontab.j2
@@ -18,7 +18,7 @@
   notify:
     - start cron
 
-- name: "[cagette-cron] - execute crontab"
+- name: "[cagette-webapp-cron] - execute crontab"
   become: yes
   shell: crontab /etc/crontab
   args:

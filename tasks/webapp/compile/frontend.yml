@@ -1,0 +1,23 @@
+
+- name: "[cagette-webapp-compile-frontend] - check if frontend code compilation has already been made once"
+  become: yes
+  stat:
+    path: "{{ cagette_webapp_install_directory }}/frontend/has_been_compiled.ansible"
+  register: has_been_compiled
+  failed_when: no
+  changed_when: no
+
+- block:
+  - name: "[cagette-webapp-compile-frontend] - compile frontend source code"
+    become: yes
+    shell: haxe cagetteJs.hxml
+    args:
+      chdir: "{{ cagette_webapp_install_directory }}/frontend"
+      executable: /bin/bash
+
+  - name: "[cagette-webapp-compile-frontend] - register file to tell that frontend has been compiled"
+    become: yes
+    file:
+      state: touch
+      path: "{{ cagette_webapp_install_directory }}/frontend/has_been_compiled.ansible"
+  when: not has_been_compiled.stat.exists or (force_cagette_frontend_compilation is defined and force_cagette_frontend_compilation == "yes")

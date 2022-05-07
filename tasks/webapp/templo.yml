@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # cagette installation - install templo
 
-- name: "[cagette-templo] - check if templo is installed and available"
+- name: "[cagette-webapp-templo] - check if templo is installed and available"
   become: yes
   stat:
     path: /usr/lib/x86_64-linux-gnu/neko/temploc2
@@ -10,19 +10,19 @@
   changed_when: no
 
 - block:
-  - name: "[cagette-templo] - setup haxelib"
+  - name: "[cagette-webapp-templo] - setup haxelib"
     become: yes
     shell: haxelib setup /usr/share/haxelib
     args:
       executable: /bin/bash
 
-  - name: "[cagette-templo] - install templo"
+  - name: "[cagette-webapp-templo] - install templo"
     become: yes
     shell: haxelib install templo
     args:
       executable: /bin/bash
 
-  - name: "[cagette-templo] - run templo"
+  - name: "[cagette-webapp-templo] - run templo"
     become: yes
     shell: haxelib run templo
     args:

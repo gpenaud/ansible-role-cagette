@@ -3,65 +3,74 @@
   include: preflight.yml
 
 - name: install npm to make cagette work
-  include: cagette/npm.yml
+  include: webapp/npm.yml
   tags:
     - cagette
-    - cagette-npm
+    - cagette-webapp
+    - cagette-webapp-npm
 
 - name: install cagette source code
-  include: cagette/sources.yml
+  include: webapp/sources.yml
   tags:
     - cagette
-    - cagette-sources
+    - cagette-webapp
+    - cagette-webapp-sources
 
 - name: install backend dependencies
-  include: cagette/dependencies/backend.yml
+  include: webapp/dependencies/backend.yml
   tags:
     - cagette
-    - cagette-dependencies
-    - cagette-dependencies-backend
+    - cagette-webapp
+    - cagette-webapp-dependencies
+    - cagette-webapp-dependencies-backend
 
 - name: install frontend dependencies
-  include: cagette/dependencies/frontend.yml
+  include: webapp/dependencies/frontend.yml
   tags:
     - cagette
-    - cagette-dependencies
-    - cagette-dependencies-frontend
+    - cagette-webapp
+    - cagette-webapp-dependencies
+    - cagette-webapp-dependencies-frontend
 
 - name: compile backend
-  include: cagette/compile/backend.yml
+  include: webapp/compile/backend.yml
   tags:
     - cagette
-    - cagette-compile
-    - cagette-compile-backend
+    - cagette-webapp
+    - cagette-webapp-compile
+    - cagette-webapp-compile-backend
 
 - name: compile frontend
-  include: cagette/compile/frontend.yml
+  include: webapp/compile/frontend.yml
   tags:
     - cagette
-    - cagette-compile
-    - cagette-compile-frontend
+    - cagette-webapp
+    - cagette-webapp-compile
+    - cagette-webapp-compile-frontend
 
 - name: install webserver
-  include: cagette/webserver.yml
+  include: webapp/webserver.yml
   tags:
     - cagette
-    - cagette-webserver
+    - cagette-webapp
+    - cagette-webapp-webserver
 
 - name: install templo
-  include: cagette/templo.yml
+  include: webapp/templo.yml
   tags:
     - cagette
-    - cagette-templo
+    - cagette-webapp
+    - cagette-webapp-templo
 
 - name: install cron
-  include: cagette/cron.yml
+  include: webapp/cron.yml
   tags:
     - cagette
-    - cagette-cron
+    - cagette-webapp
+    - cagette-webapp-cron
 
 - name: install mailer
   include: mailer/install.yml
   tags:
-    - mailer
-    - mailer-install
+    - cagette-mailer
+    - cagette-mailer-install

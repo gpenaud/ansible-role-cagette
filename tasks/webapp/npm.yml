@@ -1,33 +1,33 @@
 # ------------------------------------------------------------------------------
 # npm installation
 
-- name: "[cagette-npm] - check for npm command presence"
+- name: "[cagette-webapp-npm] - check for npm command presence"
   shell: command -v npm >/dev/null 2>&1
   register: installed
   failed_when: no
   changed_when: no
 
-- name: "[cagette-npm] - get nodejs apt repository script"
+- name: "[cagette-webapp-npm] - get nodejs apt repository script"
   get_url:
-    url: "{{ nodejs_apt_repository_script_url }}"
+    url: "{{ cagette_webapp_nodejs_apt_repository_script_url }}"
     dest: /tmp/nodejs_add_repository.sh
     mode: 'u+rwx'
   when: installed.rc != 0
   register: download
 
-- name: "[cagette-npm] - add nodejs apt repository"
+- name: "[cagette-webapp-npm] - add nodejs apt repository"
   become: yes
   shell: /tmp/nodejs_add_repository.sh
   when: download.changed
 
-- name: "[cagette-npm] - install npm package"
+- name: "[cagette-webapp-npm] - install npm package"
   become: yes
   apt:
     name: nodejs
     update_cache: yes
   when: download.changed
 
-- name: "[cagette-npm] - remove nodejs repository installer script"
+- name: "[cagette-webapp-npm] - remove nodejs repository installer script"
   file:
     path: /tmp/nodejs_add_repository.sh
     state: absent

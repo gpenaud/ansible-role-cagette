@@ -1,5 +1,5 @@
 
-- name: "[cagette-webserver] - add apache2 packages"
+- name: "[cagette-webapp-webserver] - add apache2 packages"
   become: yes
   apt:
     name: "{{ package }}"
@@ -9,9 +9,9 @@
     - libapache2-mod-neko
   loop_control:
     loop_var: package
-  register: webserver_install
+  register: cagette_webapp_webserver_install
 
-- name: "[cagette-webserver] - enables webserver modules"
+- name: "[cagette-webapp-webserver] - enables webserver modules"
   become: yes
   apache2_module:
     state: present
@@ -24,11 +24,11 @@
     - neko
   loop_control:
     loop_var: module
-  when: webserver_install.changed
+  when: cagette_webapp_webserver_install.changed
   notify:
     - restart webserver
 
-- name: "[cagette-webserver] - add webserver vhost file"
+- name: "[cagette-webapp-webserver] - add webserver vhost file"
   become: yes
   template:
     src: templates/vhost.j2
@@ -38,7 +38,7 @@
   notify:
     - restart webserver
 
-- name: "[cagette-webserver] - link vhost file from sites-available to sites-enabled"
+- name: "[cagette-webapp-webserver] - link vhost file from sites-available to sites-enabled"
   become: yes
   file:
     state: link

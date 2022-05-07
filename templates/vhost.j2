@@ -1,19 +1,19 @@
 <VirtualHost *:80>
-  ServerName {{ webserver_vhost_servername }}
-  {% if not webserver_tls_enabled -%}
-  ServerAdmin {{ webserver_vhost_server_admin }}
+  ServerName {{ cagette_webapp_webserver_vhost_servername }}
+  {% if not cagette_webapp_webserver_tls_enabled -%}
+  ServerAdmin {{ cagette_webapp_webserver_vhost_server_admin }}
 
-  DocumentRoot {{ install_directory }}/www
+  DocumentRoot {{ cagette_webapp_install_directory }}/www
   {% else %}
-  Redirect permanent / https://{{ webserver_vhost_servername }}/
+  Redirect permanent / https://{{ cagette_webapp_webserver_vhost_servername }}/
   {% endif %}
 
   LogLevel  warn
-  ErrorLog  {{ webserver_error_log_path }}
-  CustomLog {{ webserver_custom_log_path }} combined
+  ErrorLog  {{ cagette_webapp_webserver_error_log_path }}
+  CustomLog {{ cagette_webapp_webserver_custom_log_path }} combined
 
-  {% if not webserver_tls_enabled -%}
-  <Directory {{ install_directory }}/www>
+  {% if not cagette_webapp_webserver_tls_enabled -%}
+  <Directory {{ cagette_webapp_install_directory }}/www>
     Options Indexes FollowSymLinks
     AllowOverride All
     Require all granted
@@ -21,22 +21,22 @@
   {% endif -%}
 </VirtualHost>
 
-{% if webserver_tls_enabled -%}
+{% if cagette_webapp_webserver_tls_enabled -%}
 <VirtualHost *:443>
-  ServerName {{ webserver_vhost_servername }}
-  ServerAdmin {{ webserver_vhost_server_admin }}
+  ServerName {{ cagette_webapp_webserver_vhost_servername }}
+  ServerAdmin {{ cagette_webapp_webserver_vhost_server_admin }}
 
-  DocumentRoot {{ install_directory }}/www
+  DocumentRoot {{ cagette_webapp_install_directory }}/www
 
   SSLEngine             On
-  SSLCertificateFile    {{ webserver_tls_certificate_path }}
-  SSLCertificateKeyFile {{ webserver_tls_key_path }}
+  SSLCertificateFile    {{ cagette_webapp_webserver_tls_certificate_path }}
+  SSLCertificateKeyFile {{ cagette_webapp_webserver_tls_key_path }}
 
   LogLevel  warn
-  ErrorLog  {{ webserver_error_log_path }}
-  CustomLog {{ webserver_custom_log_path }} combined
+  ErrorLog  {{ cagette_webapp_webserver_error_log_path }}
+  CustomLog {{ cagette_webapp_webserver_custom_log_path }} combined
 
-  <Directory {{ install_directory }}/www>
+  <Directory {{ cagette_webapp_install_directory }}/www>
     Options Indexes FollowSymLinks
     AllowOverride All
     Require all granted

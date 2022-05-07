@@ -1,22 +1,54 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role installs the cagette web-application, in haxe, with its sidecar mailer developped with
+python and smtplib
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+For role testing:
+  - molecule
+  - podman
+  - molecule[podman] driver
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Mandatory environment variables:
+
+  - HAXE_STD_PATH
+  - HAXE_LIBCACHE
+  - LD_LIBRARY_PATH
+  - NEKOPATH
+  - PATH
+  - PROJECT_DIR
+
+Defaults and overridable variables:
+
+  install_directory: the cagette webapp instalaltion directory
+  source_repository: the cagette webapp repository url
+  nodejs_apt_repository_script_url: the node apt repository url (determine the nodejs versionto install)
+  user: the cagette user by application and owner of related files and directories
+  group: the cagette group by application and owner of related files and directories
+  cagette_webapp_webserver_vhost_servername: the cagette webapp server name
+  cagette_webapp_webserver_vhost_server_admin: the cagette webapp server admin
+  cagette_webapp_webserver_tls_enabled: wether if TLS is enblad or not (HTTPS)
+  cagette_webapp_webserver_tls_certificate_path: if TLS is enabled, set the certificate path
+  cagette_webapp_webserver_tls_key_path: if TLS is enabled, set the certificate key path
+  cagette_webapp_webserver_error_log_path: cagette webapp webserver error log path
+  cagette_webapp_webserver_custom_log_path: cagette webapp webserver custom log path
+  cagette_mailer_source_repository: the python mailer microservice source repository
+  cagette_mailer_install_directory: the python mailer microservice installation directory
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+  vars:
+    - vars/main.yml
+  roles:
+    - role: geerlingguy.mysql
 
 Example Playbook
 ----------------

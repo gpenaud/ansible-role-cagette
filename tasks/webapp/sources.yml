@@ -1,0 +1,86 @@
+
+# ------------------------------------------------------------------------------
+# packages installation
+
+- name: "[prepare] - add required apt packages"
+  become: yes
+  apt:
+    name: "{{ package }}"
+    update_cache: yes
+  loop:
+    - git
+  loop_control:
+    loop_var: package
+
+# ------------------------------------------------------------------------------
+# cagette installation
+
+- name: "[cagette-webapp-sources] - add haxe packages required"
+  become: yes
+  npm:
+    name: "{{ package }}"
+    global: yes
+  loop:
+    - lix
+    - haxe-modular
+  loop_control:
+    loop_var: package
+
+- name: "[cagette-webapp-sources] - create {{ cagette_webapp_group }} group"
+  become: yes
+  group:
+    name: "{{ cagette_webapp_group }}"
+
+- name: "[cagette-webapp-sources] - create {{ cagette_webapp_user }} user"
+  become: yes
+  user:
+    name: "{{ cagette_webapp_user }}"
+    comment: system account for cagette webapp
+    group: "{{ cagette_webapp_group }}"
+
+- name: "[cagette-webapp-sources] - create cagette webapp directory"
+  become: yes
+  file:
+    path: /var/www
+    state: directory
+    mode: 0755
+
+- name: "[cagette-webapp-sources] - check for cagette source code presence"
+  stat:
+    path: "{{ cagette_webapp_install_directory }}"
+  register: cagette_source
+  failed_when: no
+  changed_when: no
+
+- block:
+  - name: "[cagette-webapp-sources] - download git source code"
+    become: yes
+    git:
+      repo: "{{ cagette_webapp_install_directory }}"
+      dest: /tmp/cagette
+#
+  - name: "[cagette-webapp-sources] - copy source code to apache directory"
+    become: yes
+    copy:
+      src: /tmp/cagette/docker/app/
+      dest: "{{ cagette_webapp_install_directory }}"
+      owner: "{{ cagette_webapp_user }}"
+      group: "{{ cagette_webapp_group }}"
+      remote_src: yes
+
+  - name: "[cagette-webapp-sources] - remote git repository from /tmp"
+    become: yes
+    file:
+      path: /tmp/cagette
+      state: absent
+  when: not cagette_source.stat.exists or (force_source is defined and force_source == "yes")
+
+- name: "[cagette-webapp-webserver] - configure webapp file config.xml"
+  become: yes
+  template:
+    src: templates/vhost.j2
+    dest: /etc/apache2/sites-available/cagette.conf
+    owner: www-data
+    group: www-data
+  notify:
+    - restart webserver
