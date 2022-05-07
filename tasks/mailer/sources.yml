@@ -1,0 +1,72 @@
+
+- name: "[cagette-mailer-sources] - install pip through apt"
+  become: yes
+  apt:
+    state: present
+    name: python3-pip
+    update_cache: yes
+
+- name: "[cagette-mailer-sources] - install pipenv through pip"
+  become: yes
+  pip:
+    state: present
+    name: pipenv
+
+- name: "[cagette-mailer-sources] - check for mailer source code presence"
+  stat:
+    path: "{{ cagette_mailer_install_directory }}"
+  register: mailer_source
+  failed_when: no
+  changed_when: no
+
+- block:
+  - name: "[cagette-mailer-sources] - create project directory"
+    become: yes
+    file:
+      state: directory
+      path: "{{ cagette_mailer_install_directory }}"
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: "[cagette-mailer-sources] - download mailer git source code"
+    become: yes
+    git:
+      repo: "{{ cagette_mailer_source_repository }}"
+      dest: /tmp/mailer
+#
+  - name: "[cagette-mailer-sources] - copy mailer source code to install directory"
+    become: yes
+    copy:
+      src: /tmp/mailer/
+      dest: "{{ cagette_mailer_install_directory }}"
+      owner: "{{ cagette_webapp_user }}"
+      group: "{{ cagette_webapp_group }}"
+      remote_src: yes
+
+  - name: "[cagette-mailer-sources] - install mailer through pipenv"
+    become: yes
+    shell: pipenv install --deploy --ignore-pipfile
+    args:
+      chdir: "{{ cagette_mailer_install_directory }}"
+      executable: /bin/bash
+
+  - name: "[cagette-mailer-sources] - remove mailer git repository from /tmp"
+    become: yes
+    file:
+      path: /tmp/mailer
+      state: absent
+  when: not mailer_source.stat.exists or (force_cagette_mailer_sources is defined and force_cagette_mailer_sources == "yes")
+  notify:
+    - restart mailer
+
+- name: "[cagette-mailer-sources] - copy systemd service file in project directory"
+  become: yes
+  template:
+    src: templates/mailer-systemd.j2
+    dest: /lib/systemd/system/mailer.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart mailer

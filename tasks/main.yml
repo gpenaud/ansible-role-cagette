@@ -1,7 +1,7 @@
 
 - name: preflight checks
   include: preflight.yml
-  tags: always
+  # tags: always
 
 - name: install npm to make cagette work
   include: webapp/npm.yml
@@ -10,14 +10,14 @@
     - cagette-webapp
     - cagette-webapp-npm
 
-- name: install cagette source code
+- name: cagette webapp sources
   include: webapp/sources.yml
   tags:
     - cagette
     - cagette-webapp
     - cagette-webapp-sources
 
-- name: install backend dependencies
+- name: cagette webapp dependencies for backend
   include: webapp/dependencies/backend.yml
   tags:
     - cagette
@@ -25,7 +25,7 @@
     - cagette-webapp-dependencies
     - cagette-webapp-dependencies-backend
 
-- name: install frontend dependencies
+- name: cagette webapp dependencies for frontend
   include: webapp/dependencies/frontend.yml
   tags:
     - cagette
@@ -33,7 +33,7 @@
     - cagette-webapp-dependencies
     - cagette-webapp-dependencies-frontend
 
-- name: compile backend
+- name: cagette webapp compile for backend
   include: webapp/compile/backend.yml
   tags:
     - cagette
@@ -41,7 +41,7 @@
     - cagette-webapp-compile
     - cagette-webapp-compile-backend
 
-- name: compile frontend
+- name: cagette webapp compile for backend
   include: webapp/compile/frontend.yml
   tags:
     - cagette
@@ -49,29 +49,29 @@
     - cagette-webapp-compile
     - cagette-webapp-compile-frontend
 
-- name: install webserver
+- name: cagette webapp webserver
   include: webapp/webserver.yml
   tags:
     - cagette
     - cagette-webapp
     - cagette-webapp-webserver
 
-- name: install templo
+- name: cagette webapp templo
   include: webapp/templo.yml
   tags:
     - cagette
     - cagette-webapp
     - cagette-webapp-templo
 
-- name: install cron
+- name: cagette webapp cron
   include: webapp/cron.yml
   tags:
     - cagette
     - cagette-webapp
     - cagette-webapp-cron
 
-- name: install mailer
-  include: mailer/install.yml
+- name: cagette mailer sources
+  include: mailer/sources.yml
   tags:
     - cagette-mailer
-    - cagette-mailer-install
+    - cagette-mailer-sources
