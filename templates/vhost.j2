@@ -1,23 +1,36 @@
 <VirtualHost *:80>
   ServerName {{ webserver_vhost_servername }}
+  {% if not webserver_tls_enabled -%}
+  ServerAdmin {{ webserver_vhost_server_admin }}
+
+  DocumentRoot {{ install_directory }}/www
+  {% else %}
   Redirect permanent / https://{{ webserver_vhost_servername }}/
+  {% endif %}
 
   LogLevel  warn
   ErrorLog  {{ webserver_error_log_path }}
   CustomLog {{ webserver_custom_log_path }} combined
+
+  {% if not webserver_tls_enabled -%}
+  <Directory {{ install_directory }}/www>
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+  </Directory>
+  {% endif -%}
 </VirtualHost>
 
+{% if webserver_tls_enabled -%}
 <VirtualHost *:443>
   ServerName {{ webserver_vhost_servername }}
   ServerAdmin {{ webserver_vhost_server_admin }}
 
   DocumentRoot {{ install_directory }}/www
 
-  {% if webserver_tls_enabled -%}
   SSLEngine             On
   SSLCertificateFile    {{ webserver_tls_certificate_path }}
   SSLCertificateKeyFile {{ webserver_tls_key_path }}
-  {% endif %}
 
   LogLevel  warn
   ErrorLog  {{ webserver_error_log_path }}
@@ -29,3 +42,4 @@
     Require all granted
   </Directory>
 </VirtualHost>
+{% endif %}

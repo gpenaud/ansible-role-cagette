@@ -1,0 +1,72 @@
+
+- name: "[mailer-install] - install pip through apt"
+  become: yes
+  apt:
+    state: present
+    name: python3-pip
+    update_cache: yes
+
+- name: "[mailer-install] - install pipenv through pip"
+  become: yes
+  pip:
+    state: present
+    name: pipenv
+
+- name: "[mailer-install] - check for mailer source code presence"
+  stat:
+    path: "{{ mailer-install_directory }}"
+  register: mailer_source
+  failed_when: no
+  changed_when: no
+
+- block:
+  - name: "[mailer-install] - create project directory"
+    become: yes
+    file:
+      state: directory
+      path: "{{ mailer-install_directory }}"
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: "[mailer-install] - download mailer git source code"
+    become: yes
+    git:
+      repo: "{{ mailer_source_repository }}"
+      dest: /tmp/mailer
+#
+  - name: "[mailer-install] - copy mailer source code to install directory"
+    become: yes
+    copy:
+      src: /tmp/mailer/
+      dest: "{{ mailer-install_directory }}"
+      owner: "{{ user }}"
+      group: "{{ group }}"
+      remote_src: yes
+
+  - name: install mailer through pipenv
+    become: yes
+    shell: pipenv install --deploy --ignore-pipfile
+    args:
+      chdir: "{{ mailer-install_directory }}"
+      executable: /bin/bash
+
+  - name: "[mailer-install] - remote mailer git repository from /tmp"
+    become: yes
+    file:
+      path: /tmp/mailer
+      state: absent
+  when: not mailer_source.stat.exists or (force_mailer_source is defined and force_mailer_source == "yes")
+  notify:
+    - restart mailer
+
+- name: "[mailer-install] - copy systemd service file in project directory"
+  become: yes
+  template:
+    src: templates/mailer-systemd.j2
+    dest: /lib/systemd/system/mailer.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart mailer

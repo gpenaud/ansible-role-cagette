@@ -1,0 +1,21 @@
+[Unit]
+Description=Cagette mailer systemd service
+After=network-online.target
+
+[Service]
+Type=simple
+
+User=root
+Group=root
+UMask=007
+
+WorkingDirectory={{ ansible_env.PROJECT_DIR }}
+ExecStart=pipenv run python mailer.py
+
+Restart=on-failure
+
+# Configures the time to wait before service is stopped forcefully.
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target

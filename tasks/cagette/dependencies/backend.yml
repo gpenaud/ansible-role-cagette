@@ -1,11 +1,11 @@
 
-- name: "[install] - remove cagette-pro plugin"
+- name: "[cagette-dependencies-backend] - remove cagette-pro plugin"
   become: yes
   file:
     path: "{{ install_directory }}/backend/haxe_libraries/cagette-pro.hxml"
     state: absent
 
-- name: "[install] - check for backend libraries presence"
+- name: "[cagette-dependencies-backend] - check for backend libraries presence"
   become: yes
   stat:
     path: /root/haxe/haxe_libraries/asys
@@ -13,7 +13,7 @@
   failed_when: no
   changed_when: no
 
-- name: "[install] - download required haxe librairies for backend"
+- name: "[cagette-dependencies-backend] - download required haxe librairies for backend"
   become: yes
   shell: lix download
   args:

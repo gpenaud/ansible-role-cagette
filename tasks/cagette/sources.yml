@@ -1,8 +1,21 @@
 
 # ------------------------------------------------------------------------------
+# packages installation
+
+- name: "[prepare] - add required apt packages"
+  become: yes
+  apt:
+    name: "{{ package }}"
+    update_cache: yes
+  loop:
+    - git
+  loop_control:
+    loop_var: package
+
+# ------------------------------------------------------------------------------
 # cagette installation
 
-- name: "[install] - add haxe packages required"
+- name: "[cagette-sources] - add haxe packages required"
   become: yes
   npm:
     name: "{{ package }}"
@@ -13,26 +26,26 @@
   loop_control:
     loop_var: package
 
-- name: "[install] - create {{ group }} group"
+- name: "[cagette-sources] - create {{ group }} group"
   become: yes
   group:
     name: "{{ group }}"
 
-- name: "[install] - create {{ user }} user"
+- name: "[cagette-sources] - create {{ user }} user"
   become: yes
   user:
     name: "{{ user }}"
     comment: system account for cagette webapp
     group: "{{ group }}"
 
-- name: "[install] - create cagette webapp directory"
+- name: "[cagette-sources] - create cagette webapp directory"
   become: yes
   file:
     path: /var/www
     state: directory
     mode: 0755
 
-- name: "[install] - check for cagette source code presence"
+- name: "[cagette-sources] - check for cagette source code presence"
   stat:
     path: "{{ install_directory }}"
   register: cagette_source
@@ -40,13 +53,13 @@
   changed_when: no
 
 - block:
-  - name: "[install] - download git source code"
+  - name: "[cagette-sources] - download git source code"
     become: yes
     git:
       repo: "{{ source_repository }}"
       dest: /tmp/cagette
 #
-  - name: "[install] - copy source code to apache directory"
+  - name: "[cagette-sources] - copy source code to apache directory"
     become: yes
     copy:
       src: /tmp/cagette/docker/app/
@@ -55,7 +68,7 @@
       group: "{{ group }}"
       remote_src: yes
 
-  - name: "[install] - remote git repository from /tmp"
+  - name: "[cagette-sources] - remote git repository from /tmp"
     become: yes
     file:
       path: /tmp/cagette

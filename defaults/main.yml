@@ -14,3 +14,6 @@ webserver_tls_certificate_path: /etc/apache2/certificates/cert.pem
 webserver_tls_key_path: /etc/apache2/certificates/key.pem
 webserver_error_log_path: /var/log/apache2/cagette-error.log
 webserver_custom_log_path: /var/log/apache2/cagette-custom.log
+
+mailer_source_repository: https://github.com/gpenaud/cagette-mailer.git
+mailer_install_directory: "{{ ansible_env.PROJECT_DIR }}"

@@ -1,5 +1,5 @@
 
-- name: "[install] - check if frontend code compilation has already been made once"
+- name: "[cagette-compile-frontend] - check if frontend code compilation has already been made once"
   become: yes
   stat:
     path: "{{ install_directory }}/frontend/has_been_compiled.ansible"
@@ -8,14 +8,14 @@
   changed_when: no
 
 - block:
-  - name: "[install] - compile frontend source code"
+  - name: "[cagette-compile-frontend] - compile frontend source code"
     become: yes
     shell: haxe cagetteJs.hxml
     args:
       chdir: "{{ install_directory }}/frontend"
       executable: /bin/bash
 
-  - name: "[install] - register file to tell that frontend has been compiled"
+  - name: "[cagette-compile-frontend] - register file to tell that frontend has been compiled"
     become: yes
     file:
       state: touch

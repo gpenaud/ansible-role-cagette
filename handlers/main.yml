@@ -12,3 +12,10 @@
     name: apache2
     state: restarted
     enabled: yes
+
+- name: restart mailer
+  become: yes
+  service:
+    name: mailer
+    state: restarted
+    enabled: yes

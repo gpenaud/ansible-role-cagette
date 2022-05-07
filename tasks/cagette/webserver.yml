@@ -1,5 +1,5 @@
 
-- name: "[install] - add apache2 packages"
+- name: "[cagette-webserver] - add apache2 packages"
   become: yes
   apt:
     name: "{{ package }}"
@@ -11,7 +11,7 @@
     loop_var: package
   register: webserver_install
 
-- name: "[install] - enables webserver modules"
+- name: "[cagette-webserver] - enables webserver modules"
   become: yes
   apache2_module:
     state: present
@@ -28,7 +28,7 @@
   notify:
     - restart webserver
 
-- name: "[install] - add webserver vhost file"
+- name: "[cagette-webserver] - add webserver vhost file"
   become: yes
   template:
     src: templates/vhost.j2
@@ -38,7 +38,7 @@
   notify:
     - restart webserver
 
-- name: "[install] - link vhost file from sites-available to sites-enabled"
+- name: "[cagette-webserver] - link vhost file from sites-available to sites-enabled"
   become: yes
   file:
     state: link

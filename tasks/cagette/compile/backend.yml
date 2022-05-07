@@ -1,5 +1,5 @@
 
-- name: "[install] - check if backend code compilation has already been made once"
+- name: "[cagette-compile-backend] - check if backend code compilation has already been made once"
   become: yes
   stat:
     path: "{{ install_directory }}/backend/has_been_compiled.ansible"
@@ -8,14 +8,14 @@
   changed_when: no
 
 - block:
-  - name: "[install] - compile backend source code"
+  - name: "[cagette-compile-backend] - compile backend source code"
     become: yes
     shell: haxe cagette.hxml
     args:
       chdir: "{{ install_directory }}/backend"
       executable: /bin/bash
 
-  - name: "[install] - register file to tell that backend has been compiled"
+  - name: "[cagette-compile-backend] - register file to tell that backend has been compiled"
     become: yes
     file:
       state: touch

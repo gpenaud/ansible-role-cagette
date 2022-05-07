@@ -1,26 +1,13 @@
 # ------------------------------------------------------------------------------
-# packages installation
-
-- name: "[prepare] - add required apt packages"
-  become: yes
-  apt:
-    name: "{{ package }}"
-    update_cache: yes
-  loop:
-    - git
-  loop_control:
-    loop_var: package
-
-# ------------------------------------------------------------------------------
 # npm installation
 
-- name: "[prepare] - check for npm command presence"
+- name: "[cagette-npm] - check for npm command presence"
   shell: command -v npm >/dev/null 2>&1
   register: installed
   failed_when: no
   changed_when: no
 
-- name: "[prepare] - get nodejs apt repository script"
+- name: "[cagette-npm] - get nodejs apt repository script"
   get_url:
     url: "{{ nodejs_apt_repository_script_url }}"
     dest: /tmp/nodejs_add_repository.sh
@@ -28,19 +15,19 @@
   when: installed.rc != 0
   register: download
 
-- name: "[prepare] - add nodejs apt repository"
+- name: "[cagette-npm] - add nodejs apt repository"
   become: yes
   shell: /tmp/nodejs_add_repository.sh
   when: download.changed
 
-- name: "[prepare] - install npm package"
+- name: "[cagette-npm] - install npm package"
   become: yes
   apt:
     name: nodejs
     update_cache: yes
   when: download.changed
 
-- name: "[prepare] - remove nodejs repository installer script"
+- name: "[cagette-npm] - remove nodejs repository installer script"
   file:
     path: /tmp/nodejs_add_repository.sh
     state: absent

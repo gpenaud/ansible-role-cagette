@@ -2,14 +2,19 @@
 - name: Converge
   hosts: all
 
-  tasks:
-  - name: "Include gpenaud.cagette"
-    include_role:
-      name: "gpenaud.cagette"
+  # tasks:
+  # - name: "Include gpenaud.cagette"
+  #   include_role:
+  #     name: "gpenaud.cagette"
+  roles:
+    - name: gpenaud.cagette
 
   environment:
+    # cagette
     HAXE_STD_PATH:   /root/haxe/neko
     HAXE_LIBCACHE:   /root/haxe/haxe_libraries
     LD_LIBRARY_PATH: /root/haxe/neko
     NEKOPATH:        /root/haxe/neko
     PATH:            "/root/haxe/:/root/haxe/neko/{{ ansible_env.PATH }}"
+    # mailer
+    PROJECT_DIR: /usr/src/flaskbookapi
