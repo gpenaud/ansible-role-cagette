@@ -2,12 +2,11 @@
 dependency:
   name: galaxy
   options:
-    # ignore-certs: True
-    # ignore-errors: True
     role-file: requirements.yml
 
 driver:
   name: podman
+
 platforms:
 - name: ubuntu-20
   hostname: ubuntu
@@ -17,11 +16,15 @@ platforms:
   privileged: true
   pre_build_image: true
   override_command: false
+  published_ports:
+    - 80/tcp
+    - 443/tcp
 
 provisioner:
   name: ansible
   config_options:
     defaults:
       remote_user: ansible
+
 verifier:
   name: ansible

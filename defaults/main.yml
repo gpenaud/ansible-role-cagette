@@ -21,4 +21,5 @@ cagette_mailer_install_directory: /usr/src/flaskbookapi
 # mysql
 mysql_user: ansible
 mysql_password: ansible
+mysql_host: 127.0.0.1
 mysql_db: db

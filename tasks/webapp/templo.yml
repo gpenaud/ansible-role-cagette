@@ -4,7 +4,7 @@
 - name: "[cagette-webapp-templo] - check if templo is installed and available"
   become: yes
   stat:
-    path: /usr/lib/x86_64-linux-gnu/neko/temploc2
+    path: "{{ ansible_env.HAXE_STD_PATH }}/temploc2"
   register: has_been_installed
   failed_when: no
   changed_when: no
@@ -20,12 +20,13 @@
     become: yes
     shell: haxelib install templo
     args:
+      chdir: "{{ ansible_env.HAXE_STD_PATH }}"
       executable: /bin/bash
 
   - name: "[cagette-webapp-templo] - run templo"
     become: yes
     shell: haxelib run templo
     args:
-      chdir: /usr/lib/x86_64-linux-gnu/neko
+      chdir: "{{ ansible_env.HAXE_STD_PATH }}"
       executable: /bin/bash
   when: not has_been_installed.stat.exists or (force_cagette_webapp_templo is defined and force_cagette_webapp_templo == "yes")
