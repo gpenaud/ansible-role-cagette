@@ -1,6 +1,7 @@
 
 - name: preflight checks
   include: preflight.yml
+  tags: always
 
 - name: install npm to make cagette work
   include: webapp/npm.yml

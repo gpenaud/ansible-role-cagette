@@ -9,3 +9,13 @@
   loop: "{{ required_environment_vars }}"
   loop_control:
     loop_var: env_var
+
+- name: "[preflight] - check that URLs used by the role are reachable and returns a 200"
+  uri:
+    url: "{{ url }}"
+  loop:
+    - "{{ cagette_webapp_source_repository }}"
+    - "{{ cagette_webapp_nodejs_apt_repository_script_url }}"
+    - "{{ cagette_mailer_source_repository }}"
+  loop_control:
+    loop_var: url

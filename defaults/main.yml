@@ -1,6 +1,6 @@
 # cagette webapp
 cagette_webapp_install_directory: /var/www/cagette
-cagette_webapp_install_directory: https://github.com/gpenaud/cagette.git
+cagette_webapp_source_repository: https://github.com/gpenaud/cagette.git
 cagette_webapp_nodejs_apt_repository_script_url: https://deb.nodesource.com/setup_17.x
 
 cagette_webapp_user: cagette
@@ -16,7 +16,7 @@ cagette_webapp_webserver_custom_log_path: /var/log/apache2/cagette-custom.log
 
 # cagette mailer
 cagette_mailer_source_repository: https://github.com/gpenaud/cagette-mailer.git
-cagette_mailer_install_directory: "{{ ansible_env.PROJECT_DIR }}"
+cagette_mailer_install_directory: /usr/src/flaskbookapi
 
 # mysql
 mysql_user: ansible

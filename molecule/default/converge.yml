@@ -12,5 +12,3 @@
     LD_LIBRARY_PATH: /root/haxe/neko
     NEKOPATH:        /root/haxe/neko
     PATH:            "/root/haxe/:/root/haxe/neko/{{ ansible_env.PATH }}"
-    # mailer
-    PROJECT_DIR: /usr/src/flaskbookapi

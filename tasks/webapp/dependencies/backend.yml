@@ -19,4 +19,4 @@
   args:
     chdir: "{{ cagette_webapp_install_directory }}/backend"
     executable: /bin/bash
-  when: not haxe_backend_libraries.stat.exists or (force_haxe_backend_libraries is defined and force_haxe_backend_libraries == "yes")
+  when: not haxe_backend_libraries.stat.exists or (force_cagette_webapp_dependencies_backend is defined and force_cagette_webapp_dependencies_backend == "yes")

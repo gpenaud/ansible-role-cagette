@@ -28,4 +28,4 @@
     args:
       chdir: /usr/lib/x86_64-linux-gnu/neko
       executable: /bin/bash
-  when: not has_been_installed.stat.exists or (force_templo_installation is defined and force_templo_installation == "yes")
+  when: not has_been_installed.stat.exists or (force_cagette_webapp_templo is defined and force_cagette_webapp_templo == "yes")

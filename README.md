@@ -15,6 +15,18 @@ For role testing:
 Role Variables
 --------------
 
+Behavior enforcement variables:
+  # cagette
+  force_cagette_webapp_sources                force (re)installation of webapp sources
+  force_cagette_webapp_compile_backend        force compilation of backend code through haxe
+  force_cagette_webapp_compile_frontend       force compilation of frontend code through haxe
+  force_cagette_webapp_dependencies_backend   force downloading dependencies for backend with lix
+  force_cagette_webapp_dependencies_frontend  force downloading dependencies for frontend with lix
+  force_cagette_webapp_templo                 force (re)installation and (re)run of haxelib and templo2
+
+  # mailer
+  force_cagette_mailer_source: force (re)installation of mailer sources
+
 Mandatory environment variables:
 
   - HAXE_STD_PATH

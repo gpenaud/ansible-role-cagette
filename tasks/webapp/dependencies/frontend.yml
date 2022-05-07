@@ -13,7 +13,7 @@
   args:
     chdir: "{{ cagette_webapp_install_directory }}/frontend"
     executable: /bin/bash
-  when: not haxe_frontend_libraries.stat.exists or (force_haxe_frontend_libraries is defined and force_haxe_frontend_libraries == "yes")
+  when: not haxe_frontend_libraries.stat.exists or (force_cagette_webapp_dependencies_frontend is defined and force_cagette_webapp_dependencies_frontend == "yes")
 
 - name: "[cagette-webapp-dependencies-frontend] - ensure lang tmp has 0777 mode"
   become: yes

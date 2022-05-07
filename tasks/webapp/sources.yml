@@ -56,7 +56,7 @@
   - name: "[cagette-webapp-sources] - download git source code"
     become: yes
     git:
-      repo: "{{ cagette_webapp_install_directory }}"
+      repo: "{{ cagette_webapp_source_repository }}"
       dest: /tmp/cagette
 #
   - name: "[cagette-webapp-sources] - copy source code to apache directory"
@@ -73,14 +73,12 @@
     file:
       path: /tmp/cagette
       state: absent
-  when: not cagette_source.stat.exists or (force_source is defined and force_source == "yes")
+  when: not cagette_source.stat.exists or (force_cagette_webapp_sources is defined and force_cagette_webapp_sources == "yes")
 
-- name: "[cagette-webapp-webserver] - configure webapp file config.xml"
+- name: "[cagette-webapp-sources] - configure webapp file config.xml"
   become: yes
   template:
-    src: templates/vhost.j2
-    dest: /etc/apache2/sites-available/cagette.conf
-    owner: www-data
-    group: www-data
-  notify:
-    - restart webserver
+    src: templates/config.xml.j2
+    dest: "{{ cagette_webapp_install_directory }}/config.xml"
+    owner: "{{ cagette_webapp_user }}"
+    group: "{{ cagette_webapp_group }}"

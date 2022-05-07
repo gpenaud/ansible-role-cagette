@@ -56,7 +56,7 @@
     file:
       path: /tmp/mailer
       state: absent
-  when: not mailer_source.stat.exists or (force_mailer_source is defined and force_mailer_source == "yes")
+  when: not mailer_source.stat.exists or (force_cagette_mailer_source is defined and force_cagette_mailer_source == "yes")
   notify:
     - restart mailer
 

@@ -20,4 +20,4 @@
     file:
       state: touch
       path: "{{ cagette_webapp_install_directory }}/backend/has_been_compiled.ansible"
-  when: not has_been_compiled.stat.exists or (force_cagette_backend_compilation is defined and force_cagette_backend_compilation == "yes")
+  when: not has_been_compiled.stat.exists or (force_cagette_webapp_compile_backend is defined and force_cagette_webapp_compile_backend == "yes")

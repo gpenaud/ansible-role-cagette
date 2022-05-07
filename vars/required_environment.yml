@@ -6,5 +6,3 @@ required_environment_vars:
   - "LD_LIBRARY_PATH"
   - "NEKOPATH"
   - "PATH"
-  # mailer
-  - "PROJECT_DIR"
