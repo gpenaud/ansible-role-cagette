@@ -21,6 +21,7 @@
     mysql_db: db
 
   roles:
+    - geerlingguy.mysql
     - gpenaud.cagette
 
   environment:

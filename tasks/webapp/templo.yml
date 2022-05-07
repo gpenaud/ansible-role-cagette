@@ -12,7 +12,7 @@
 - block:
   - name: "[cagette-webapp-templo] - setup haxelib"
     become: yes
-    shell: haxelib setup /usr/share/haxelib
+    shell: haxelib setup "{{ ansible_env.HAXE_STD_PATH }}"
     args:
       executable: /bin/bash
 

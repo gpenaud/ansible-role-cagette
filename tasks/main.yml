@@ -17,13 +17,6 @@
     - cagette-webapp
     - cagette-webapp-sources
 
-- name: cagette webapp templo
-  include: webapp/templo.yml
-  tags:
-    - cagette
-    - cagette-webapp
-    - cagette-webapp-templo
-
 - name: cagette webapp dependencies for backend
   include: webapp/dependencies/backend.yml
   tags:
@@ -62,6 +55,13 @@
     - cagette
     - cagette-webapp
     - cagette-webapp-webserver
+
+- name: cagette webapp templo
+  include: webapp/templo.yml
+  tags:
+    - cagette
+    - cagette-webapp
+    - cagette-webapp-templo
 
 - name: cagette webapp cron
   include: webapp/cron.yml
