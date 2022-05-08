@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # packages installation
 
-- name: "[prepare] - add required apt packages"
+- name: "[cagette-webapp-sources] - add required apt packages"
   become: yes
   apt:
     name: "{{ package }}"
