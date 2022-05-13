@@ -35,5 +35,6 @@
     copy:
       src: /root/haxe/neko/temploc2
       dest: /usr/local/bin/temploc2
+      mode: 0755
       remote_src: yes
   when: not has_been_installed.stat.exists or (force_cagette_webapp_templo is defined and force_cagette_webapp_templo == "yes")
